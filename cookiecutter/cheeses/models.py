@@ -1,6 +1,7 @@
 from django.db import models
 from autoslug import AutoSlugField
 from model_utils.models import TimeStampedModel
+
 class Cheese(TimeStampedModel):
     name = models.CharField("Name of Cheese", max_length=255)
     slug = AutoSlugField("Cheese Address",
