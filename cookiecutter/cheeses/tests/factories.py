@@ -15,6 +15,6 @@ class CheeseFactory(factory.django.DjangoModelFactory):
         [x[0] for x in Cheese.Firmness.choices]
     )
 
-    
-class Meta:
-    model = Cheese
+    class Meta:
+        model = Cheese
+
