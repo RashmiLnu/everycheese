@@ -1,3 +1,5 @@
+
+
 {% extends "base.html" %}
 {% block title %}Cheese List{% endblock title %}
 {% block content %}
@@ -8,21 +10,34 @@
       border-collapse: collapse;
     }
     th, td {
-      width: 50%;
+      width: 33%;  /* Adjusted for three columns */
       padding: 10px;
       border-bottom: 1px solid lightgrey;
+    }
+    .delete-link {
+      color: blue;
     }
   </style>
   <table>
     <tr>
       <th>Cheese</th>
       <th>Country</th>
+      <th>Command</th>  <!-- Added Command column header -->
     </tr>
     {% for cheese in cheese_list %}
     <tr>
       <td><a href="{% url 'cheeses:detail' cheese.slug %}">{{ cheese.name }}</a></td>
-      <td>{{ cheese.country_of_origin }}</td>
+      <td>{{ cheese.country_of_origin.name }}</td>
+      <td><a href="{% url 'cheeses:delete' cheese.slug %}" class="delete-link">Delete</a></td>  <!-- Added Delete link -->
     </tr>
     {% endfor %}
   </table>
+  <hr/>
+<p>Don't see a cheese listed here?</p>
+<p>
+<a class="btn btn-primary"
+href="{% url 'cheeses:add' %}" role="button">
+Add Cheese
+</a>
+</p>
 {% endblock content %}
