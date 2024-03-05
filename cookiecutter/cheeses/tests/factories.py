@@ -2,6 +2,7 @@ from django.template.defaultfilters import slugify
 import factory
 import factory.fuzzy
 from ..models import Cheese
+from cookiecutter.users.tests.factories import UserFactory
 
 class CheeseFactory(factory.django.DjangoModelFactory):
     name = factory.fuzzy.FuzzyText()
@@ -16,6 +17,7 @@ class CheeseFactory(factory.django.DjangoModelFactory):
     )
 
     country_of_origin = factory.Faker('country_code')
+    creator = factory.SubFactory(UserFactory)
 
     class Meta:
         model = Cheese
