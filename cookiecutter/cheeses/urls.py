@@ -34,6 +34,9 @@ urlpatterns = [
          name="detail"
     ),
 
+    path('cheeses/<slug:slug>/rate/', views.RatingCreateView.as_view(), name='rate_cheese'),
+    path('cheeses/<slug:slug>/rate/update/', views.RatingUpdateView.as_view(), name='update_rating'),
+
 
 
 ]

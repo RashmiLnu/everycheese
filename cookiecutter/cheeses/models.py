@@ -4,6 +4,9 @@ from model_utils.models import TimeStampedModel
 from django_countries.fields import CountryField
 from django.urls import reverse
 from django.conf import settings
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 
 class Cheese(TimeStampedModel):
     name = models.CharField("Name of Cheese", max_length=255)
@@ -45,4 +48,20 @@ class Cheese(TimeStampedModel):
         return reverse(
             'cheeses:delete', kwargs={"slug": self.slug}
         )
+
+    @property
+    def average_rating(self):
+        total_rating = sum(rating.rating for rating in self.rating_set.all())
+        num_ratings = self.rating_set.count()
+        return total_rating / num_ratings if num_ratings > 0 else 0
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    cheese = models.ForeignKey(Cheese, on_delete=models.CASCADE)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], default=1)
+
+    class Meta:
+        unique_together = ('user', 'cheese')
+
 
